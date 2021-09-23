@@ -168,7 +168,7 @@ StaticJsonDocument<384> jsonBuffer;
 
 // Sensirion SCD CO2, temperature and humidity sensor
 #define SCD30WIRE Wire
-#include "paulvha_SCD30.h"
+#include "../lib/esp-scd30/src/paulvha_SCD30.h"
 #define SCD30_SCK_GPIO 14 // signal GPIO14 (D5)
 #define SCD30_SDA_GPIO 12 // signal GPIO12 (D6)
 
