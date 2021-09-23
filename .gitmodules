@@ -1,0 +1,3 @@
+[submodule "Anaire.30ppm-50ppm/anaire-device.NodeMCULuaAmicaV2/lib/esp-scd30"]
+	path = Anaire.30ppm-50ppm/anaire-device.NodeMCULuaAmicaV2/lib/esp-scd30
+	url = https://github.com/Churrosoft/esp-scd30.git
