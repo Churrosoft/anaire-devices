@@ -39,9 +39,25 @@ extern "C" {
 //JSON
 #include <ArduinoJson.h>
 
+#include "../lib/esp-scd30/src/paulvha_SCD30.h"
+
+// MHZ14A CO2 sensor: software serial port
+#include "SoftwareSerial.h" // Remove if using HardwareSerial or non-uno compatabile device
+#include "MHZ19.h"          // https://github.com/WifWaf/MH-Z19 Library
+// AZ-Delivery DHT11
+#include "DHTesp.h"
+// Ticker library to blink leds and buzzer
+#include <Ticker.h>                         //Ticker Library
 // own deeps
+
+#include "global-vars.h"
 #include "config.h"
 #include "changelog.h"
 // EEPROM
-#include "memory/eeprom.h"
+#include "eeprom.h"
+#include "connectivy/mqtt.h"
+#include "connectivy/wifi.h"
+#include "sensors/sensors.h"
+// OLED:
+#include "oled/oled.h"
 #endif
