@@ -37,14 +37,14 @@ constexpr int ALARM_BLINK_PERIOD = 200;               // 0.2 seconds
 #define SCD30_SCK_GPIO 14 // signal GPIO14 (D5)
 #define SCD30_SDA_GPIO 12 // signal GPIO12 (D6)
 
-// CO2 sensors
+/* // CO2 sensors
 enum CO2_sensors
 {
   none,
   MHZ14A,
   SCD30
 }; // possible sensors integrated in the SW
-CO2_sensors co2_sensor = none;
+CO2_sensors co2_sensor = none; */
 
 // AZ-Delivery Active Buzzer
 #define BUZZER_GPIO 4 // signal GPIO4 (D2)

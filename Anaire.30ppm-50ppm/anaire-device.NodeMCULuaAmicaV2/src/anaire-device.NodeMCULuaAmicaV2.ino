@@ -17,6 +17,7 @@ struct MyEEPROMStruct
   boolean ABC = false;                      // Automatic baseline Correction; default to false
   uint16_t FRC_value = 400;                 // Forced ReCalibration value; default to 400ppm
   uint16_t temperature_offset = 0;          // temperature offset for SCD30 CO2 measurements
+
   uint16_t altitude_compensation = 0;       // altitude compensation for SCD30 CO2 measurements
   char wifi_user[24] = "";                  // WiFi user to be used on WPA Enterprise. Default to null (not used)
   char wifi_password[24] = "";              // WiFi password to be used on WPA Enterprise. Default to null (not used)
@@ -67,7 +68,14 @@ char received_payload[384];
 //JSON
 StaticJsonDocument<384> jsonBuffer;
 
+// Sensirion SCD CO2, temperature and humidity sensor
+#define SCD30WIRE Wire
+#include "../lib/esp-scd30/src/paulvha_SCD30.h"
+#define SCD30_SCK_GPIO 14 // signal GPIO14 (D5)
+#define SCD30_SDA_GPIO 12 // signal GPIO12 (D6)
+
 SCD30 airSensor;
+
 unsigned long SCD30_WARMING_TIME = 2000;                                 // SCD30 CO2 sensor warming time
 unsigned long SCD30_CALIBRATION_TIME = 180000;                           // SCD30 CO2 CALIBRATION TIME: 3 min = 180000 ms
 uint16_t SCD30_MEASUREMENT_INTERVAL = measurements_loop_duration / 1000; // time between measurements
@@ -102,6 +110,13 @@ DHTesp dht;
 float temperature; // Read temperature as Celsius
 float humidity;    // Read humidity in %
 
+enum CO2_sensors
+{
+  none,
+  MHZ14A,
+  SCD30
+}; // possible sensors integrated in the SW
+CO2_sensors co2_sensor = none;
 
 // CO2 device status
 enum CO2_status
