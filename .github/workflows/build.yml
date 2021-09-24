@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [main]
 
+defaults:
+  run:
+    working-directory: Anaire.30ppm-50ppm/anaire-device.NodeMCULuaAmicaV2
+    
 jobs:
   build:
     runs-on: ubuntu-latest
