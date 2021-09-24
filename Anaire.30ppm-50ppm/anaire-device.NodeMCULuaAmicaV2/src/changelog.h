@@ -4,7 +4,7 @@
 #include <Print.h>
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-String sw_version = "v2.20210923.Naima";
+#define sw_version "v2.20210923.Naima"
 // v2.20210619.Naima homogeneizes treatment of MH-Z14A and MH-Z19c
 // v2.2021520.Malik changes on code comments to be consistent with the launch of new Anaire PiCO2 device and documentation update on Guthub. First major upgrade.
 // 20210307 Fixed remoted updates by reducing BearSSL buffer size

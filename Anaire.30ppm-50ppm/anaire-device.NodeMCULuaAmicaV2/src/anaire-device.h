@@ -42,5 +42,6 @@ extern "C" {
 // own deeps
 #include "config.h"
 #include "changelog.h"
-
+// EEPROM
+#include "memory/eeprom.h"
 #endif

@@ -6,22 +6,7 @@ String anaire_device_id = String(ESP.getChipId(), HEX); // HEX version, for easi
 
 // The neatest way to access variables stored in EEPROM is using a structure
 // Init to default values; if they have been chaged they will be readed later, on initialization
-struct MyEEPROMStruct
-{
-  char anaire_device_name[24] = "";         // Device name; default to anaire_device_id
-  uint16_t CO2ppm_warning_threshold = 700;  // Warning threshold; default to 700ppm
-  uint16_t CO2ppm_alarm_threshold = 1000;   // Alarm threshold; default to 1000ppm
-  char MQTT_server[24] = "mqtt.anaire.org"; // MQTT server url or public IP address. Default to Anaire Portal on portal.anaire.org
-  uint16_t MQTT_port = 80;                  // MQTT port; Default to Anaire Port on 30183
-  boolean sound_alarm = true;               // Global flag to control sound alarm; default to true
-  boolean ABC = false;                      // Automatic baseline Correction; default to false
-  uint16_t FRC_value = 400;                 // Forced ReCalibration value; default to 400ppm
-  uint16_t temperature_offset = 0;          // temperature offset for SCD30 CO2 measurements
-
-  uint16_t altitude_compensation = 0;       // altitude compensation for SCD30 CO2 measurements
-  char wifi_user[24] = "";                  // WiFi user to be used on WPA Enterprise. Default to null (not used)
-  char wifi_password[24] = "";              // WiFi password to be used on WPA Enterprise. Default to null (not used)
-} eepromConfig;
+MyEEPROMStruct eepromConfig;
 
 // Save config values to EEPROM
 #include <ESP_EEPROM.h>
@@ -1962,109 +1947,6 @@ void update_OLED_Status()
   }
 
   display.display(); // update OLED display
-}
-
-void Read_EEPROM()
-{
-
-  // The begin() call will find the data previously saved in EEPROM if the same size
-  // as was previously committed. If the size is different then the EEEPROM data is cleared.
-  // Note that this is not made permanent until you call commit();
-  EEPROM.begin(sizeof(MyEEPROMStruct));
-
-  // Wipe EEPROM
-  /*
-    boolean result = EEPROM.wipe();
-    if (result) {
-    Serial.println("All EEPROM data wiped");
-    } else {
-    Serial.println("EEPROM data could not be wiped from flash store");
-    }
-  */
-
-  // Check if the EEPROM contains valid data from another run
-  // If so, overwrite the 'default' values set up in our struct
-  if (EEPROM.percentUsed() >= 0)
-  {
-
-    Serial.println("EEPROM has data from a previous run.");
-    Serial.print(EEPROM.percentUsed());
-    Serial.println("% of ESP flash space currently used");
-
-    // Read saved data
-    EEPROM.get(0, eepromConfig);
-    Print_Config();
-  }
-  else
-  {
-    anaire_device_id.toCharArray(eepromConfig.anaire_device_name, sizeof(eepromConfig.anaire_device_name));
-    Serial.println("No EEPROM data - using default config values");
-  }
-}
-
-void Write_EEPROM()
-{
-
-  // The begin() call will find the data previously saved in EEPROM if the same size
-  // as was previously committed. If the size is different then the EEEPROM data is cleared.
-  // Note that this is not made permanent until you call commit();
-  EEPROM.begin(sizeof(MyEEPROMStruct));
-
-  // set the EEPROM data ready for writing
-  EEPROM.put(0, eepromConfig);
-
-  // write the data to EEPROM
-  boolean ok = EEPROM.commit();
-  Serial.println((ok) ? "EEPROM Commit OK" : "EEPROM Commit failed");
-}
-
-void Wipe_EEPROM()
-{
-  boolean result = EEPROM.wipe();
-  if (result)
-  {
-    Serial.println("All EEPROM data wiped");
-  }
-  else
-  {
-    Serial.println("EEPROM data could not be wiped from flash store");
-  }
-}
-
-void Print_Config()
-{
-  Serial.println("#######################################");
-  Serial.print("device id: ");
-  Serial.println(anaire_device_id);
-  Serial.print("anaire device name: ");
-  Serial.println(eepromConfig.anaire_device_name);
-  Serial.print("SW version: ");
-  Serial.println(sw_version);
-  Serial.print("WiFi SSID: ");
-  Serial.println(wifi_ssid);
-  Serial.print("WiFi user: ");
-  Serial.println(eepromConfig.wifi_user);
-  Serial.print("WiFi password: ");
-  Serial.println(eepromConfig.wifi_password);
-  Serial.print("CO2ppm Warning threshold: ");
-  Serial.println(eepromConfig.CO2ppm_warning_threshold);
-  Serial.print("CO2ppm Alarm threshold: ");
-  Serial.println(eepromConfig.CO2ppm_alarm_threshold);
-  Serial.print("MQTT server: ");
-  Serial.println(eepromConfig.MQTT_server);
-  Serial.print("MQTT Port: ");
-  Serial.println(eepromConfig.MQTT_port);
-  Serial.print("Sound Alarm: ");
-  Serial.println(eepromConfig.sound_alarm);
-  Serial.print("Automatic Baseline Correction: ");
-  Serial.println(eepromConfig.ABC);
-  Serial.print("Forced Recalibration Value: ");
-  Serial.println(eepromConfig.FRC_value);
-  Serial.print("Temperature Offset: ");
-  Serial.println(eepromConfig.temperature_offset);
-  Serial.print("Altitude Compensation: ");
-  Serial.println(eepromConfig.altitude_compensation);
-  Serial.println("#######################################");
 }
 
 void firmware_update()
