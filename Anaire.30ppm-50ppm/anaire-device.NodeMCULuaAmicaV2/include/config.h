@@ -37,15 +37,6 @@ constexpr int ALARM_BLINK_PERIOD = 200;               // 0.2 seconds
 #define SCD30_SCK_GPIO 14 // signal GPIO14 (D5)
 #define SCD30_SDA_GPIO 12 // signal GPIO12 (D6)
 
-/* // CO2 sensors
-enum CO2_sensors
-{
-  none,
-  MHZ14A,
-  SCD30
-}; // possible sensors integrated in the SW
-CO2_sensors co2_sensor = none; */
-
 // AZ-Delivery Active Buzzer
 #define BUZZER_GPIO 4 // signal GPIO4 (D2)
 
@@ -65,5 +56,27 @@ CO2_sensors co2_sensor = none; */
 //#define DEVICE_STATUS_BUILTIN_LED_GPIO 16                       // GPIO16 (D0), closer to the usb port, on the NodeMCU PCB -  below the button labeled R (Reset) on 3D Box
 #define DEVICE_STATUS_BUILTIN_LED_GPIO 2 // GPIO2 (D4), on the ESP-12 module’s PCB, far away from the usb port - near button labeled A (Alarm) on 3D Box
 
+// Sensirion SCD CO2, temperature and humidity sensor
+#define SCD30WIRE Wire
+#define SCD30_SCK_GPIO 14 // signal GPIO14 (D5)
+#define SCD30_SDA_GPIO 12 // signal GPIO12 (D6)
+
+constexpr unsigned long SCD30_WARMING_TIME = 2000;                                 // SCD30 CO2 sensor warming time
+constexpr unsigned long SCD30_CALIBRATION_TIME = 180000;                           // SCD30 CO2 CALIBRATION TIME: 3 min = 180000 ms
+constexpr uint16_t SCD30_MEASUREMENT_INTERVAL = measurements_loop_duration / 1000; // time between measurements
+
+// MHZ14A CO2 sensor: software serial port
+#define MHZ_BAUDRATE 9600                              // Native to the sensor (do not change)
+constexpr unsigned long MHZ14A_WARMING_TIME = 180000;      // MHZ14A CO2 sensor warming time: 3 minutes = 180000 ms
+constexpr unsigned long MHZ14A_SERIAL_TIMEOUT = 3000;      // MHZ14A CO2 serial start timeout: 3 seconds = 3000 ms
+constexpr unsigned long MHZ14A_CALIBRATION_TIME = 1200000; // MHZ14A CO2 CALIBRATION TIME: 20 min = 1200000 ms
+#define swSerialRX_gpio 13
+#define swSerialTX_gpio 15
+
+constexpr byte measurement_command[9] = {0xFF, 0x01, 0x86, 0x00, 0x00, 0x00, 0x00, 0x00, 0x79}; // Command to get measurements from MHZ14A CO2 sensor
+constexpr byte calibration_command[9] = {0xFF, 0x01, 0x87, 0x00, 0x00, 0x00, 0x00, 0x00, 0x78}; // Command to calibrate MHZ14A CO2 sensor
+
+// AZ-Delivery DHT11
+#define DHT_GPIO 5 // signal GPIO5 (D1)
 
 #endif

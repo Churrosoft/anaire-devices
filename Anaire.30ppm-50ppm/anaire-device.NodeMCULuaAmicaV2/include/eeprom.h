@@ -5,7 +5,7 @@
 // Save config values to EEPROM
 #include <ESP_EEPROM.h>
 #include <Print.h>
-#include "../changelog.h"
+#include "changelog.h"
 #include <ESP8266WiFi.h>                          // Wifi ESP8266
 
 struct MyEEPROMStruct
